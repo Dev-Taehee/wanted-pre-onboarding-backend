@@ -24,6 +24,13 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
+    public Member signIn(Member member) {
+        Optional<Member> findMember = memberRepository.findByEmail(member.getEmail());
+        Member signInMember = findMember.orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_INVALID));
+        if(!passwordEncoder.matches(member.getPassword(), signInMember.getPassword())) throw new BusinessLogicException(ExceptionCode.MEMBER_INVALID);
+        return signInMember;
+    }
+
     private void verifyExistEmail(String email) {
         Optional<Member> findMember = memberRepository.findByEmail(email);
         if (findMember.isPresent()) {

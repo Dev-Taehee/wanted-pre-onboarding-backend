@@ -20,4 +20,15 @@ public class MemberDto {
         private String password;
     }
 
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @Getter
+    @Builder
+    public static class Get {
+        @Pattern(regexp = ".*@.*", message = "반드시 @가 포함되어있어야합니다.")
+        private String email;
+
+        @Length(min = 8, message = "비밀번호의 길이는 최소 8자 이상이어야 합니다.")
+        private String password;
+    }
+
 }
